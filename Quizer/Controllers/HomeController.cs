@@ -4,14 +4,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Quizer.DataAccessLayer;
 using Quizer.Models;
 
 namespace Quizer.Controllers
 {
     public class HomeController : Controller
     {
+        private QuizerContext _context;
+
+        public HomeController(QuizerContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
+            var data = _context.Questions;
             return View();
         }
 

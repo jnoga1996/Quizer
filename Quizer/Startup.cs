@@ -7,8 +7,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quizer.DataAccessLayer;
+using Quizer.DataAccessLayer.Entities;
+using Quizer.DataAccessLayer.Repositories.Abstract;
+using Quizer.DataAccessLayer.Repositories.Concrete;
 
 namespace Quizer
 {
@@ -33,6 +38,11 @@ namespace Quizer
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<QuizerContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("QuizerContext")));
+
+            services.AddScoped<IRepository<Category>, Repository<Category>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +51,7 @@ namespace Quizer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
             }
             else
             {
