@@ -14,6 +14,8 @@ using Quizer.DataAccessLayer;
 using Quizer.DataAccessLayer.Entities;
 using Quizer.DataAccessLayer.Repositories.Abstract;
 using Quizer.DataAccessLayer.Repositories.Concrete;
+using Quizer.Services.Abstract;
+using Quizer.Services.Concrete;
 
 namespace Quizer
 {
@@ -43,6 +45,10 @@ namespace Quizer
                 options.UseSqlServer(Configuration.GetConnectionString("QuizerContext")));
 
             services.AddScoped<IRepository<Category>, Repository<Category>>();
+            services.AddScoped<IRepository<Answer>, Repository<Answer>>();
+            services.AddScoped<IRepository<Question>, Repository<Question>>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
