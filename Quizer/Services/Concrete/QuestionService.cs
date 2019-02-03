@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Quizer.DataAccessLayer.Entities;
 using Quizer.DataAccessLayer.Repositories.Abstract;
 using Quizer.Services.Abstract;
@@ -20,6 +21,16 @@ namespace Quizer.Services.Concrete
         public IEnumerable<Question> GetAll()
         {
             return _questionRepository.GetAll();
+        }
+
+        public Question Get(int id)
+        {
+            return _questionRepository.Get(id);
+        }
+
+        public SelectList GetSelectList()
+        {
+            return new SelectList(_questionRepository.GetAll(), "Id", "Text");
         }
     }
 }

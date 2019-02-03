@@ -28,5 +28,30 @@ namespace Quizer.Services.Concrete
         {
             return _answerRepository.GetAll().Where(q => q.QuestionId == questionId);
         }
+
+        public Answer Get(int id)
+        {
+            return _answerRepository.Get(id);
+        }
+
+        public bool Create(Answer answer)
+        {
+            if (_answerRepository.Get(answer.Id) != null)
+                return false;
+
+            _answerRepository.Create(answer);
+
+            return true;
+        }
+
+        public bool Delete(Answer answer)
+        {
+            if (_answerRepository.Get(answer.Id) == null)
+                return false;
+
+            _answerRepository.Delete(answer);
+
+            return true;
+        }
     }
 }

@@ -10,6 +10,12 @@ namespace Quizer.Services.Abstract
     {
         IEnumerable<Answer> GetAll();
 
+        Answer Get(int id);
+
         IEnumerable<Answer> GetAnswersForQuestion(int questionId);
+
+        bool Create(Answer answer);
+
+        bool Delete(Answer answer);
     }
 }
