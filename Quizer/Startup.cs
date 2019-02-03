@@ -49,6 +49,8 @@ namespace Quizer
             services.AddScoped<IRepository<Question>, Repository<Question>>();
 
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IAnswerService, AnswerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
