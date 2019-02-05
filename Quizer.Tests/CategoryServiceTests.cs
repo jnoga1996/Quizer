@@ -14,14 +14,14 @@ namespace Quizer.Tests
     [TestFixture]
     public class CategoryServiceTests
     {
-        private Mock<ICategoryService> mockCategoryService;
-        private  ICategoryService _categoryService;
+        private Mock<ICategoryService> _mockCategoryService;
+        private ICategoryService _categoryService;
         private IList<Category> _categories;
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            mockCategoryService = new Mock<ICategoryService>();
+            _mockCategoryService = new Mock<ICategoryService>();
             _categories = new List<Category>
                 {
                     new Category {Id = 1, Name = "Mathematics"},
@@ -29,19 +29,19 @@ namespace Quizer.Tests
                     new Category {Id = 3, Name = "General knowledge"}
                 };
 
-            mockCategoryService.Setup(x => x.GetAll()).Returns(_categories);
+            _mockCategoryService.Setup(x => x.GetAll()).Returns(_categories);
 
-            mockCategoryService.Setup(x => x.Get(1)).Returns(_categories.First(x => x.Id == 1));
-            mockCategoryService.Setup(x => x.Get(2)).Returns(_categories.First(x => x.Id == 2));
-            mockCategoryService.Setup(x => x.Get(It.Is<int>(i => i > 3 || i < 1))).Returns((Category)null);
+            _mockCategoryService.Setup(x => x.Get(1)).Returns(_categories.First(x => x.Id == 1));
+            _mockCategoryService.Setup(x => x.Get(2)).Returns(_categories.First(x => x.Id == 2));
+            _mockCategoryService.Setup(x => x.Get(It.Is<int>(i => i > 3 || i < 1))).Returns((Category)null);
 
-            mockCategoryService.Setup(x => x.Create(It.IsAny<Category>())).Returns(true);
-            mockCategoryService.Setup(x => x.Create(null)).Returns(false);
+            _mockCategoryService.Setup(x => x.Create(It.IsAny<Category>())).Returns(true);
+            _mockCategoryService.Setup(x => x.Create(null)).Returns(false);
 
-            mockCategoryService.Setup(x => x.Delete(It.IsAny<Category>())).Returns(true);
-            mockCategoryService.Setup(x => x.Delete(null)).Returns(false);
+            _mockCategoryService.Setup(x => x.Delete(It.IsAny<Category>())).Returns(true);
+            _mockCategoryService.Setup(x => x.Delete(null)).Returns(false);
 
-            _categoryService = mockCategoryService.Object;
+            _categoryService = _mockCategoryService.Object;
         }
 
         [Test]
