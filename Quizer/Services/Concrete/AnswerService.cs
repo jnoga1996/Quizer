@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Quizer.DataAccessLayer.Entities;
 using Quizer.DataAccessLayer.Repositories.Abstract;
 using Quizer.Services.Abstract;
@@ -52,6 +53,21 @@ namespace Quizer.Services.Concrete
             _answerRepository.Delete(answer);
 
             return true;
+        }
+
+        public SelectList GetCorrerctAnswerNumbersSelectList()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            for (int i = 1; i <= 4; i++)
+            {
+                SelectListItem item = new SelectListItem { Text = i.ToString(), Value = i.ToString() };
+                if (i == 1) { item.Selected = true; }
+
+                items.Add(item);
+            }
+
+            return new SelectList(items, "Text", "Value");
         }
     }
 }

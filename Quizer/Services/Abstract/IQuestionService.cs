@@ -13,6 +13,8 @@ namespace Quizer.Services.Abstract
 
         Question Get(int id);
 
+        bool Create(Question question);
+
         SelectList GetSelectList();
     }
 }

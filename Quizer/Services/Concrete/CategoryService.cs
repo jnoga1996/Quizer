@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Quizer.DataAccessLayer.Entities;
 using Quizer.DataAccessLayer.Repositories.Abstract;
 using Quizer.Services.Abstract;
@@ -60,6 +61,25 @@ namespace Quizer.Services.Concrete
             }
 
             return true;
+        }
+
+        public SelectList GetCategoriesSelectList()
+        {
+            List<SelectListItem> categories = new List<SelectListItem>();
+
+            foreach (var category in GetAll())
+            {
+                categories.Add(
+                    new SelectListItem { Text = category.Name, Value = category.Id.ToString() }
+                    );
+            }
+
+            if (categories.Count > 0)
+            {
+                categories[0].Selected = true;
+            }
+
+            return new SelectList(categories, "Value", "Text");
         }
     }
 }

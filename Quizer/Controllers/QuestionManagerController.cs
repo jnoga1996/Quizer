@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Quizer.DataAccessLayer.Entities;
 using Quizer.Models;
 using Quizer.Services.Abstract;
 
@@ -42,13 +43,34 @@ namespace Quizer.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.Categories = _categoryService.GetCategoriesSelectList();
+            ViewBag.CorrectAnswerNumbers = _answerService.GetCorrerctAnswerNumbersSelectList();
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(QuestionModelView model)
         {
-            return RedirectToAction(nameof(Index));
+            model.Category = _categoryService.Get(model.CategoryId);
+            model.Question.Category = model.Category;
+            model.Question.Answers = model.Answers;
+            model.Question.CorrectAnswerId = model.Answers[model.CorrectAnswerId].Id;
+
+            Question question = new Question
+            {
+                Text = model.Question.Text,
+                Answers = model.Answers,
+                CorrectAnswerId = model.Question.CorrectAnswerId,
+                Category = model.Category,
+                CategoryId = model.CategoryId
+            };
+
+            bool result = _questionService.Create(question);
+
+            if (result)
+                return RedirectToAction(nameof(Index));
+
+            return View(model);
         }
     }
 }

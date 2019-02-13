@@ -32,5 +32,20 @@ namespace Quizer.Services.Concrete
         {
             return new SelectList(_questionRepository.GetAll(), "Id", "Text");
         }
+
+        public bool Create(Question question)
+        {
+            try
+            {
+                _questionRepository.Create(question);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+
+            return true;
+        }
     }
 }
