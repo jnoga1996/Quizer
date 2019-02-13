@@ -32,7 +32,9 @@ namespace Quizer.Controllers
                 {
                     Question = question,
                     Category = _categoryService.Get(question.CategoryId),
-                    Answers = _answerService.GetAnswersForQuestion(question.Id).ToList()
+                    Answers = _answerService.GetAnswersForQuestion(question.Id).ToList(),
+                    CorrectAnswerId = question.CorrectAnswerId,
+                    CategoryId = question.CategoryId
                 };
 
                 questions.Add(model);
@@ -54,20 +56,27 @@ namespace Quizer.Controllers
             model.Category = _categoryService.Get(model.CategoryId);
             model.Question.Category = model.Category;
             model.Question.Answers = model.Answers;
-            model.Question.CorrectAnswerId = model.Answers[model.CorrectAnswerId].Id;
+            
+            int correctAnswerId = model.Answers[model.CorrectAnswerId].Id;
+            Answer correctAnswer = new Answer
+            {
+                Text = model.Answers[correctAnswerId].Text,
+                Question = model.Question
+            };
+            bool correctAnswerCreated = _answerService.Create(correctAnswer);
 
             Question question = new Question
             {
                 Text = model.Question.Text,
                 Answers = model.Answers,
-                CorrectAnswerId = model.Question.CorrectAnswerId,
+                CorrectAnswerId = correctAnswer.Id,
                 Category = model.Category,
                 CategoryId = model.CategoryId
             };
 
-            bool result = _questionService.Create(question);
+            bool questionCreated = _questionService.Create(question);
 
-            if (result)
+            if (correctAnswerCreated && questionCreated)
                 return RedirectToAction(nameof(Index));
 
             return View(model);

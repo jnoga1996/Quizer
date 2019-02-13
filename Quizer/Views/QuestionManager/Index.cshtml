@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Answers)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorrectAnswerId)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -36,9 +39,12 @@
             @{ string answers = ""; }
             @foreach (var answer in item.Answers)
             {
-                answers += $"{answer.Text}";
+                answers += $"{answer.Text}\n";
             }
             @answers
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.CorrectAnswerId)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
